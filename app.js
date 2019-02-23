@@ -5,7 +5,7 @@ const getChance = require('./chance')
 const bodyparser = require('body-parser')
 app.use(bodyparser.urlencoded({ extended: false }))
 app.get('/', (req, res) => {
-    if (req.param('loc', undefined) == undefined) {
+    if (req.param('loc', undefined) === undefined) {
         res.json({error: "Location not found."})
     } else {
         var weather = require('weather-js');
