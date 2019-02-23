@@ -12,11 +12,16 @@ app.get('/', (req, res) => {
         weather.find({search: req.param('loc'), degreeType: 'C'}, (err, result) => {
             if (err) return console.log(err)
             today = new Date().toLocaleDateString("en", { weekday: 'long' })     
-            if (typeof result[0].forecast === "undefined") {
+            if (typeof result[0] === "undefined") {
                 res.json({error: "Location not found."})
             } else {
                 result[0].forecast.forEach(day => {
                     if (today.toLowerCase() == day.day.toLowerCase()) {
+                        console.log(day)
+                        if (today.toLowerCase() == "sunday" || today.toLowerCase() == "saturday") {
+                            res.json({error: "weekend", date: day.date})
+                            return
+                        }
                         loc = result[0].location
                         cur = result[0].current
 
@@ -42,7 +47,7 @@ app.get('/', (req, res) => {
                         if (loc.alert) {
                             perc = perc + 15
                         }
-                        res.json({chance: Math.abs(perc)})
+                        res.json({chance: Math.abs(perc), date: day.date})
                     }
                 })
             }
