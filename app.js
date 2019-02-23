@@ -5,11 +5,11 @@ const getChance = require('./chance')
 const bodyparser = require('body-parser')
 app.use(bodyparser.urlencoded({ extended: false }))
 app.get('/', (req, res) => {
-    if (req.params.loc == undefined) {
+    if (req.param('loc', undefined) == undefined) {
         res.json({error: "Location not found."})
     } else {
         var weather = require('weather-js');
-        weather.find({search: req.params.loc, degreeType: 'C'}, (err, result) => {
+        weather.find({search: req.param('loc'), degreeType: 'C'}, (err, result) => {
             if (err) return console.log(err)
             today = new Date().toLocaleDateString("en", { weekday: 'long' })     
 
