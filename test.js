@@ -1,0 +1,1 @@
+require("./chance")("l9r 1c8")
