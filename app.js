@@ -12,14 +12,14 @@ app.get('/', (req, res) => {
         weather.find({search: req.param('loc'), degreeType: 'C'}, (err, result) => {
             if (err) return console.log(err)
             today = new Date().toLocaleDateString("en", { weekday: 'long' })     
-            if (result[0].forecast === undefined) {
+            if (typeof result[0].forecast === "undefined") {
                 res.json({error: "Location not found."})
             } else {
                 result[0].forecast.forEach(day => {
                     if (today.toLowerCase() == day.day.toLowerCase()) {
                         loc = result[0].location
                         cur = result[0].current
-                    
+
                         console.log("Predicting for today...")
                         perc = 0
                         if (day.skytextday.toLowerCase().indexOf("snow") != -1) {
