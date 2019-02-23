@@ -5,19 +5,19 @@ const getChance = require('./chance')
 const bodyparser = require('body-parser')
 app.use(bodyparser.urlencoded({ extended: false }))
 app.get('/', (req, res) => {
-    if (req.body.loc == undefined) {
+    if (req.params.loc == undefined) {
         res.json({error: "Location not found."})
     } else {
         var weather = require('weather-js');
-        weather.find({search: req.body.loc, degreeType: 'C'}, (err, result) => {
+        weather.find({search: req.params.loc, degreeType: 'C'}, (err, result) => {
             if (err) return console.log(err)
             today = new Date().toLocaleDateString("en", { weekday: 'long' })     
-        
+
             result[0].forecast.forEach(day => {
                 if (today.toLowerCase() == day.day.toLowerCase()) {
                     loc = result[0].location
                     cur = result[0].current
-                
+
                     console.log("Predicting for today...")
                     perc = 0
                     if (day.skytextday.toLowerCase().indexOf("snow") != -1) {
